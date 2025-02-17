@@ -1,0 +1,20 @@
+using System;
+
+public class stock
+{
+  public string name;
+  public decimal CurrentPrice { get; set; }  
+  public decimal SharesOwned { get; set; }    
+
+  public decimal Worth
+{
+  get { return CurrentPrice * SharesOwned; }
+}
+class Program
+{
+  static void Main()
+  {
+    Stock stock = new Stock(150, 10);
+
+    Console.WriteLine($"Current Price: {stock.CurrentPrice}");
+    
