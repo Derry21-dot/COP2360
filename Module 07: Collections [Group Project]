@@ -1,0 +1,162 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static Dictionary<string, List<string>> myDictionary = new();
+
+    static void Main()
+    {
+        bool running = true;
+
+        while (running)
+        {
+            Console.WriteLine("\n--- Dictionary Menu ---");
+            Console.WriteLine("a. Populate the Dictionary");
+            Console.WriteLine("b. Display Dictionary Contents");
+            Console.WriteLine("c. Remove a Key");
+            Console.WriteLine("d. Add a New Key and Value");
+            Console.WriteLine("e. Add a Value to an Existing Key");
+            Console.WriteLine("f. Sort the Keys");
+            Console.WriteLine("q. Quit");
+
+            Console.Write("Enter your choice: ");
+            string input = Console.ReadLine()?.ToLower();
+
+            switch (input)
+            {
+                case "a":
+                    PopulateDictionary();
+                    break;
+
+                case "b":
+                    DisplayDictionary();
+                    break;
+
+                case "c":
+                    RemoveKey();
+                    break;
+
+                case "d":
+                    AddNewKeyValue();
+                    break;
+
+                case "e":
+                    AppendToExistingKey();
+                    break;
+
+                case "f":
+                    SortKeys();
+                    break;
+
+                case "q":
+                    running = false;
+                    Console.WriteLine("Exiting...");
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid option. Try again.");
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Populates the dictionary with user-provided key and comma-separated values.
+    /// </summary>
+    static void PopulateDictionary()
+    {
+        Console.Write("Enter a key: ");
+        string key = Console.ReadLine();
+
+        Console.Write("Enter comma-separated values: ");
+        string[] values = Console.ReadLine()?.Split(',') ?? [];
+
+        myDictionary[key] = new List<string>(values.Select(v => v.Trim()));
+
+        Console.WriteLine($"Added key '{key}' with values: {string.Join(", ", myDictionary[key])}");
+    }
+
+    /// <summary>
+    /// Displays the dictionary using .Keys, .Values, and .Items (enumeration methods).
+    /// </summary>
+    static void DisplayDictionary()
+    {
+        Console.WriteLine("\n-- Dictionary Contents Using .Items --");
+        foreach (var kvp in myDictionary)
+        {
+            Console.WriteLine($"{kvp.Key}: {string.Join(", ", kvp.Value)}");
+        }
+    }
+
+    /// <summary>
+    /// Removes a key from the dictionary if it exists.
+    /// </summary>
+    static void RemoveKey()
+    {
+        Console.Write("Enter the key to remove: ");
+        string key = Console.ReadLine();
+
+        if (myDictionary.Remove(key))
+            Console.WriteLine($"Key '{key}' removed.");
+        else
+            Console.WriteLine($"Key '{key}' not found.");
+    }
+
+    /// <summary>
+    /// Adds a new key and one value to the dictionary.
+    /// </summary>
+    static void AddNewKeyValue()
+    {
+        Console.Write("Enter new key: ");
+        string key = Console.ReadLine();
+
+        Console.Write("Enter value: ");
+        string value = Console.ReadLine();
+
+        if (!myDictionary.ContainsKey(key))
+        {
+            myDictionary[key] = [value];
+            Console.WriteLine($"Added {key}: {value}");
+        }
+        else
+        {
+            Console.WriteLine($"Key '{key}' already exists. Use option (e) to add values.");
+        }
+    }
+
+    /// <summary>
+    /// Appends a new value to an existing key.
+    /// </summary>
+    static void AppendToExistingKey()
+    {
+        Console.Write("Enter existing key: ");
+        string key = Console.ReadLine();
+
+        if (myDictionary.TryGetValue(key, out var values))
+        {
+            Console.Write("Enter value to append: ");
+            string value = Console.ReadLine();
+            values.Add(value);
+            Console.WriteLine($"Updated {key}: {string.Join(", ", values)}");
+        }
+        else
+        {
+            Console.WriteLine($"Key '{key}' not found.");
+        }
+    }
+
+    /// <summary>
+    /// Sorts and displays keys in alphabetical order.
+    /// </summary>
+    static void SortKeys()
+    {
+        Console.WriteLine("\n-- Sorted Keys --");
+        foreach (var key in myDictionary.Keys.OrderBy(k => k))
+        {
+            Console.WriteLine($"{key}: {string.Join(", ", myDictionary[key])}");
+        }
+    }
+}
+
