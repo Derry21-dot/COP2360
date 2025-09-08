@@ -1,0 +1,18 @@
+def count_even(nums):
+    """
+    Counts how many even numbers exist in a list.
+
+    Args:
+        nums (list): A list of integers.
+
+    Returns:
+        int: The number of even integers in the list.
+    """
+    # Initialize a counter
+    count = 0  
+    
+    # Loop through each number and check if it's even
+    for n in nums:
+        if n % 2 == 0:
+            count += 1
+    return count
